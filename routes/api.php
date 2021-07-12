@@ -1,19 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::group(['prefix'=>'auth','namespace'=>'Auth'], function(){
+    Route::post('signin','SignInController');
+    Route::get('me','MeController');
+    Route::post('signout','SignOutController');
+});
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix'=>'snippets','namespace'=>'Snippets'], function(){
+    Route::get('', 'SnippetController@index');
+    Route::post('', 'SnippetController@store');
+    Route::get('{snippet}', 'SnippetController@show');
+    Route::patch('{snippet}', 'SnippetController@update');
+    Route::patch('{snippet}/steps/{step}', 'StepController@update');
+    Route::post('{snippet}/steps/', 'StepController@store');
+    Route::delete('{snippet}/steps/{step}', 'StepController@destroy');
+});
+
+Route::group(['prefix'=>'me','namespace'=>'Me'], function(){
+    Route::get('snippets', 'SnippetController@index');
 });
