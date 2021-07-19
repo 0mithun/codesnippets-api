@@ -27,3 +27,9 @@ Route::group(['prefix'=>'me','namespace'=>'Me'], function(){
 Route::group(['prefix'=>'keys','namespace'=>'Keys'], function(){
     Route::get('algolia',  'AlgoliaKeyController');
 });
+
+Route::group(['prefix'=>'users/{user}','namespace'=>'Users'], function(){
+    Route::get('',  'UserController@show');
+    Route::patch('',  'UserController@update');
+    Route::get('snippets',  'SnippetController@index');
+});
