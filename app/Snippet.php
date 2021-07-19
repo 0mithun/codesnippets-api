@@ -2,12 +2,17 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Transformers\Snippets\SnippetTransformer;
 
 class Snippet extends Model
 {
+
+    use Searchable;
+
     protected $fillable = [
         'user_id','uuid','title','is_public'
     ];
@@ -30,6 +35,17 @@ class Snippet extends Model
     {
         return 'uuid';
     }
+
+    public function toSearchableArray()
+    {
+        return \fractal()
+                ->item($this)
+                ->transformWith(new SnippetTransformer())
+                ->parseIncludes(['steps','author',])
+                ->toArray()
+            ;
+    }
+
 
     public function scopePublic(Builder $builder){
         return $builder->where('is_public', true);

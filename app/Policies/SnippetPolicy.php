@@ -68,7 +68,7 @@ class SnippetPolicy
      */
     public function delete(User $user, Snippet $snippet)
     {
-        //
+        return $user->id === $snippet->user_id;
     }
 
     /**

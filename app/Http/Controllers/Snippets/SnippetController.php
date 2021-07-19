@@ -96,6 +96,8 @@ class SnippetController extends Controller
      */
     public function destroy(Snippet $snippet)
     {
-        // $this->authorize('update', $snippet);
+        $this->authorize('delete', $snippet);
+
+        $snippet->delete();
     }
 }
